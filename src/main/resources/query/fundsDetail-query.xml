@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-lazy-init="true">
+
+    <bean id="fundsDetail-query" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <!-- if SQL, end with _sql -->
+                <!-- if HQL, end with _hql -->
+                <entry key="findMyAvailableAmount_sql">
+                    <value>
+                        <![CDATA[
+                        	SELECT 
+                        		available_amount availableAmount, 
+                        		frozen_amount frozenAmount, 
+                        		used_amount usedAmount,
+                        		total_amount totalAmount,
+                        		currency, 
+                        		currency_name currencyName, 
+                        		currency_sign currencySign 
+                        	FROM pay_funds_detail d 
+                        	INNER JOIN ( SELECT max(order_) order_ FROM pay_funds_detail WHERE user_id = ? ) d2 ON d.order_ = d2.order_ AND d.user_id = ?
+                        	inner join dic_currency c on c.currency_code=d.currency
+                        ]]>
+                    </value>
+                </entry>
+
+
+            </map>
+        </constructor-arg>
+    </bean>
+</beans>
