@@ -1,24 +1,17 @@
 package cn.wuxia.project.payment.core.entity;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
+import cn.wuxia.common.util.DateUtil;
+import cn.wuxia.project.common.model.ModifyInfoEntity;
 import cn.wuxia.project.payment.core.enums.ExpenseType;
 import cn.wuxia.project.payment.core.enums.TradeType;
-import cn.wuxia.project.common.model.CommonEntity;
-
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
-import cn.wuxia.common.util.DateUtil;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
 * The persistent class for the pay_funds_trade_detail database table.
@@ -27,7 +20,7 @@ import cn.wuxia.common.util.DateUtil;
 */
 @Entity
 @Table(name = "pay_funds_trade_detail")
-public class FundsTradeDetail extends CommonEntity implements Serializable {
+public class FundsTradeDetail extends ModifyInfoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

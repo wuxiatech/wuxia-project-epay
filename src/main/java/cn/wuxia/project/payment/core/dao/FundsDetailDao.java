@@ -1,14 +1,12 @@
 package cn.wuxia.project.payment.core.dao;
 
-import java.util.Map;
-
-import cn.wuxia.project.basic.core.common.BaseCommonDao;
+import cn.wuxia.common.spring.SpringContextHolder;
+import cn.wuxia.project.common.dao.CommonDao;
 import cn.wuxia.project.payment.core.bean.MyAmountDetail;
 import cn.wuxia.project.payment.core.entity.FundsDetail;
-
 import org.springframework.stereotype.Component;
 
-import cn.wuxia.common.spring.SpringContextHolder;
+import java.util.Map;
 
 /**
  * FundsDetail Dao.
@@ -16,7 +14,7 @@ import cn.wuxia.common.spring.SpringContextHolder;
  * @since 2017-02-16
  */
 @Component
-public class FundsDetailDao extends BaseCommonDao<FundsDetail, String> {
+public class FundsDetailDao extends CommonDao<FundsDetail, String> {
     private Map<String, String> queryMap = SpringContextHolder.getBean("fundsDetail-query");
 
     /**

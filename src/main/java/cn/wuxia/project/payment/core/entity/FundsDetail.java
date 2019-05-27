@@ -1,25 +1,16 @@
 package cn.wuxia.project.payment.core.entity;
 
+import cn.wuxia.common.util.DateUtil;
+import cn.wuxia.common.util.NoGenerateUtil;
+import cn.wuxia.project.common.model.ModifyInfoEntity;
+import cn.wuxia.project.payment.core.enums.FundsType;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import cn.wuxia.project.payment.core.enums.FundsType;
-import cn.wuxia.project.common.model.CommonEntity;
-
-import org.hibernate.validator.constraints.Length;
-
-import cn.wuxia.common.util.DateUtil;
-import cn.wuxia.common.util.NoGenerateUtil;
 
 /**
 * The persistent class for the pay_funds_detail database table.
@@ -28,7 +19,7 @@ import cn.wuxia.common.util.NoGenerateUtil;
 */
 @Entity
 @Table(name = "pay_funds_detail")
-public class FundsDetail extends CommonEntity implements Serializable {
+public class FundsDetail extends ModifyInfoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

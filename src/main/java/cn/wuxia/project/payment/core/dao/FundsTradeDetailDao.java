@@ -1,8 +1,8 @@
 package cn.wuxia.project.payment.core.dao;
 
-import java.util.List;
-import java.util.Map;
-
+import cn.wuxia.common.spring.SpringContextHolder;
+import cn.wuxia.common.util.ListUtil;
+import cn.wuxia.project.common.dao.CommonDao;
 import cn.wuxia.project.payment.core.entity.FundsTradeDetail;
 import cn.wuxia.project.payment.core.enums.ExpenseType;
 import cn.wuxia.project.payment.core.enums.TradeType;
@@ -10,9 +10,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 
-import cn.wuxia.project.basic.core.common.BaseCommonDao;
-import cn.wuxia.common.spring.SpringContextHolder;
-import cn.wuxia.common.util.ListUtil;
+import java.util.List;
+import java.util.Map;
 
 /**
  * FundsTradeDetail Dao.
@@ -20,7 +19,7 @@ import cn.wuxia.common.util.ListUtil;
  * @since 2017-02-16
  */
 @Component
-public class FundsTradeDetailDao extends BaseCommonDao<FundsTradeDetail, String> {
+public class FundsTradeDetailDao extends CommonDao<FundsTradeDetail, String> {
     /**
     * 在资源目录下配置自定义查询语句 /resources/query/fundsTradeDetail-query.xml
     */

@@ -1,16 +1,15 @@
 package cn.wuxia.project.payment.core.service.impl;
 
-import java.util.List;
-
+import cn.wuxia.common.orm.query.Pages;
+import cn.wuxia.project.common.dao.CommonDao;
+import cn.wuxia.project.common.service.impl.CommonServiceImpl;
 import cn.wuxia.project.payment.core.dao.FundsTradeDetailDao;
 import cn.wuxia.project.payment.core.entity.FundsTradeDetail;
+import cn.wuxia.project.payment.core.service.FundsTradeDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.wuxia.project.payment.core.service.FundsTradeDetailService;
-import cn.wuxia.project.common.dao.CommonDao;
-import cn.wuxia.project.common.service.impl.CommonServiceImpl;
-import cn.wuxia.common.orm.query.Pages;
+import java.util.List;
 
 /**
  * 订单交易明细表 Service Implement class.
@@ -34,6 +33,7 @@ public class FundsTradeDetailServiceImpl extends CommonServiceImpl<FundsTradeDet
      * @param orderNo
      * @return
      */
+    @Override
     public List<FundsTradeDetail> findByOrderNo(String orderNo) {
         List<FundsTradeDetail> list = fundsTradeDetailDao.findByOrderNo(orderNo);
         return list;

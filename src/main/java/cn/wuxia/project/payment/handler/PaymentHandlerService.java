@@ -10,14 +10,14 @@ package cn.wuxia.project.payment.handler;
 
 import cn.wuxia.common.exception.AppPermissionException;
 import cn.wuxia.common.util.DateUtil;
-import cn.wuxia.common.util.StringUtil;
-import cn.wuxia.component.epay.EpayException;
-import cn.wuxia.component.epay.EpayService;
-import cn.wuxia.component.epay.bean.EpayBean;
-import cn.wuxia.component.epay.trade.enums.PaymentTradeStatusEnum;
-import cn.wuxia.component.epay.trade.enums.PaymentTradeTypeEnum;
-import cn.wuxia.component.epay.trade.model.PaymentTrade;
-import cn.wuxia.component.epay.trade.service.PaymentTradeService;
+import cn.wuxia.project.epay.EpayException;
+import cn.wuxia.project.epay.EpayService;
+import cn.wuxia.project.epay.bean.EpayAfterBean;
+import cn.wuxia.project.epay.bean.EpayBeforeBean;
+import cn.wuxia.project.epay.trade.enums.PaymentTradeStatusEnum;
+import cn.wuxia.project.epay.trade.enums.PaymentTradeTypeEnum;
+import cn.wuxia.project.epay.trade.model.PaymentTrade;
+import cn.wuxia.project.epay.trade.service.PaymentTradeService;
 import cn.wuxia.project.payment.core.enums.ExpenseType;
 import cn.wuxia.project.payment.core.service.FundsDetailService;
 import org.slf4j.Logger;
@@ -50,21 +50,26 @@ public class PaymentHandlerService extends EpayService {
      * @author songlin
      */
     @Override
-    public void beforePayment(EpayBean paymentBean) {
+    public void beforePayment(EpayBeforeBean paymentBean) {
         paymentTradeService.save(beanToTrade(paymentBean));
     }
 
-    private PaymentTrade beanToTrade(EpayBean paymentBean) {
+    private PaymentTrade beanToTrade(EpayAfterBean paymentBean) {
         PaymentTrade trade = new PaymentTrade();
         BeanUtils.copyProperties(paymentBean, trade);
         return trade;
     }
 
+    private PaymentTrade beanToTrade(EpayBeforeBean paymentBean) {
+        PaymentTrade trade = new PaymentTrade();
+        BeanUtils.copyProperties(paymentBean, trade);
+        return trade;
+    }
     /**
      * 支付完成后的操作
      */
     @Override
-    public boolean afterPayment(EpayBean paymentBean) throws EpayException {
+    public boolean afterPayment(EpayAfterBean paymentBean) throws EpayException {
         boolean isSuccess = false;
         /**
          * 支付完成后保存交易
@@ -83,25 +88,18 @@ public class PaymentHandlerService extends EpayService {
             // 判断充值的金额是否在网络上及页面上修改
             boolean sameAmount = paymentTrade.getAmount().compareTo(paymentBean.getAmount()) == 0 ? true : false;
 
-            if (sameAmount && paymentBean.isSuccessTrade()) {
-                isSuccess = true;
-            } else {
-                // TODO 失败后的操作
-            }
-            if (isSuccess) {
+            if (sameAmount) {
                 //支付类型
                 PaymentTradeTypeEnum paymentType = paymentTrade.getType();
                 switch (paymentType) {
                     case DINGDAN:
                         logger.debug("进入订单付款成功后，更新订单.................");
-                        if (StringUtil.isBlank(paymentBean.getOrderNo())) {
-                            break;
-                        }
+
                         break;
                     case CHONGZHI:
                         logger.debug("进入订单充值，充值金额：{}RMB", paymentBean.getAmount());
                         ExpenseType expensetype = null;
-                        switch (paymentBean.getPaymentPlatform()) {
+                        switch (paymentTrade.getPaymentPlatform()) {
                             case ALIPAY:
                                 expensetype = ExpenseType.transfer_alipay;
                                 break;
@@ -118,7 +116,7 @@ public class PaymentHandlerService extends EpayService {
                                 break;
 
                         }
-                        fundsDetailService.saveChargeTopup(paymentTrade.getUserId(), "CNY", paymentBean.getAmount(), paymentBean.getOrderNo(),
+                        fundsDetailService.saveChargeTopup(paymentTrade.getUserId(), "CNY", paymentBean.getAmount(), paymentBean.getSerialNumber(),
                                 expensetype, paymentTrade.getRemark());
                         break;
                     default:
@@ -142,22 +140,22 @@ public class PaymentHandlerService extends EpayService {
      * 退款操作
      */
     @Override
-    public void afterRefund(EpayBean paymentBean) throws EpayException {
+    public void afterRefund(EpayAfterBean paymentBean) throws EpayException {
         PaymentTrade paymentTrade = beanToTrade(paymentBean);
-        if (paymentBean.isSuccessTrade()) {
-            /**
-             * 退款成功后保存交易
-             */
-            paymentTrade.setTransDate(DateUtil.newInstanceDate());
-            paymentTrade.setStatus(PaymentTradeStatusEnum.TUIKUANZHONG);
-            paymentTrade.setType(PaymentTradeTypeEnum.TUIKUAN);
-            paymentTrade.setRemark(paymentBean.getRemark() + PaymentTradeStatusEnum.TUIKUANZHONG.getRemark());
-        } else {
-            paymentTrade.setStatus(PaymentTradeStatusEnum.SHIBAI);
-            paymentTrade.setType(PaymentTradeTypeEnum.TUIKUAN);
-            paymentTrade.setRemark(paymentBean.getRemark() + PaymentTradeStatusEnum.SHIBAI.getRemark());
-        }
-        paymentTradeService.save(paymentTrade);
+//        if (paymentBean.isSuccessTrade()) {
+//            /**
+//             * 退款成功后保存交易
+//             */
+//            paymentTrade.setTransDate(DateUtil.newInstanceDate());
+//            paymentTrade.setStatus(PaymentTradeStatusEnum.TUIKUANZHONG);
+//            paymentTrade.setType(PaymentTradeTypeEnum.TUIKUAN);
+//            paymentTrade.setRemark(paymentBean.getRemark() + PaymentTradeStatusEnum.TUIKUANZHONG.getRemark());
+//        } else {
+//            paymentTrade.setStatus(PaymentTradeStatusEnum.SHIBAI);
+//            paymentTrade.setType(PaymentTradeTypeEnum.TUIKUAN);
+//            paymentTrade.setRemark(paymentBean.getRemark() + PaymentTradeStatusEnum.SHIBAI.getRemark());
+//        }
+//        paymentTradeService.save(paymentTrade);
         /*// 交易后添加操作记录
         userService.saveUserOperation(UserOperationEnum.PAYMENT, paymentTrade.getRemark()
                 + PaymentTradeTypeEnum.get(paymentTrade.getType()).getRemark() + "("
