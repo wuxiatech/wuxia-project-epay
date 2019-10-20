@@ -8,7 +8,9 @@
  */
 package cn.wuxia.project.payment.handler;
 
+import cn.wuxia.common.exception.AppDaoException;
 import cn.wuxia.common.exception.AppPermissionException;
+import cn.wuxia.common.exception.AppServiceException;
 import cn.wuxia.common.util.DateUtil;
 import cn.wuxia.project.epay.EpayException;
 import cn.wuxia.project.epay.EpayService;
@@ -51,7 +53,11 @@ public class PaymentHandlerService extends EpayService {
      */
     @Override
     public void beforePayment(EpayBeforeBean paymentBean) {
-        paymentTradeService.save(beanToTrade(paymentBean));
+        try {
+            paymentTradeService.save(beanToTrade(paymentBean));
+        } catch (AppDaoException e) {
+            throw new AppServiceException("保存失败", e);
+        }
     }
 
     private PaymentTrade beanToTrade(EpayAfterBean paymentBean) {
@@ -65,6 +71,7 @@ public class PaymentHandlerService extends EpayService {
         BeanUtils.copyProperties(paymentBean, trade);
         return trade;
     }
+
     /**
      * 支付完成后的操作
      */
@@ -129,7 +136,11 @@ public class PaymentHandlerService extends EpayService {
                 // TODO 失败后的操作
             }
             paymentTrade.setTransDate(DateUtil.newInstanceDate());
-            paymentTradeService.save(paymentTrade);
+            try {
+                paymentTradeService.save(paymentTrade);
+            } catch (AppDaoException e) {
+                throw new EpayException("保存失败", e);
+            }
         }
 //        // 交易后添加操作记录
 //        operationHistoryService.saveUserOperation();

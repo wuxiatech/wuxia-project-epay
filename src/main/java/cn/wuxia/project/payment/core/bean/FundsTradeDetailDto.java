@@ -1,16 +1,16 @@
 package cn.wuxia.project.payment.core.bean;
 
+import cn.wuxia.project.common.bean.CommonDto;
+import cn.wuxia.project.payment.core.enums.ExpenseType;
+import cn.wuxia.project.payment.core.enums.TradeType;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import javax.validation.constraints.NotNull;
-
-import cn.wuxia.project.payment.core.enums.ExpenseType;
-import cn.wuxia.project.payment.core.enums.TradeType;
-import org.hibernate.validator.constraints.NotBlank;
-
-import cn.wuxia.project.common.bean.CommonDto;
 
 
 /**
@@ -18,6 +18,8 @@ import cn.wuxia.project.common.bean.CommonDto;
  * @author songlin
  * @ Version : V<Ver.No> <2017年5月10日>
  */
+@Getter
+@Setter
 public class FundsTradeDetailDto extends CommonDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,84 +49,5 @@ public class FundsTradeDetailDto extends CommonDto implements Serializable {
     @NotBlank(message = "用户id不能为空")
     private String userId; //用户id - 必填，冗余数据
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public TradeType getTradeType() {
-        return tradeType;
-    }
-
-    public void setTradeType(TradeType tradeType) {
-        this.tradeType = tradeType;
-    }
-
-    public Timestamp getTradeTime() {
-        return tradeTime;
-    }
-
-    public void setTradeTime(Timestamp tradeTime) {
-        this.tradeTime = tradeTime;
-    }
-
-    public ExpenseType getExpenseType() {
-        return expenseType;
-    }
-
-    public void setExpenseType(ExpenseType expenseType) {
-        this.expenseType = expenseType;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getTradeNo() {
-        return tradeNo;
-    }
-
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
-    }
 
 }
