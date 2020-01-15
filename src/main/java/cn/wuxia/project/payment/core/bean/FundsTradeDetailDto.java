@@ -5,7 +5,7 @@ import cn.wuxia.project.payment.core.enums.ExpenseType;
 import cn.wuxia.project.payment.core.enums.TradeType;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;

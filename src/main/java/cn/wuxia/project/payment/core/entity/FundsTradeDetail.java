@@ -5,7 +5,7 @@ import cn.wuxia.project.common.model.ModifyInfoEntity;
 import cn.wuxia.project.payment.core.enums.ExpenseType;
 import cn.wuxia.project.payment.core.enums.TradeType;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
