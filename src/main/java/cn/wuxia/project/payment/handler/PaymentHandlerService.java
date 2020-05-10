@@ -147,30 +147,4 @@ public class PaymentHandlerService extends EpayService {
         return isSuccess;
     }
 
-    /**
-     * 退款操作
-     */
-    @Override
-    public void afterRefund(EpayAfterBean paymentBean) throws EpayException {
-        PaymentTrade paymentTrade = beanToTrade(paymentBean);
-//        if (paymentBean.isSuccessTrade()) {
-//            /**
-//             * 退款成功后保存交易
-//             */
-//            paymentTrade.setTransDate(DateUtil.newInstanceDate());
-//            paymentTrade.setStatus(PaymentTradeStatusEnum.TUIKUANZHONG);
-//            paymentTrade.setType(PaymentTradeTypeEnum.TUIKUAN);
-//            paymentTrade.setRemark(paymentBean.getRemark() + PaymentTradeStatusEnum.TUIKUANZHONG.getRemark());
-//        } else {
-//            paymentTrade.setStatus(PaymentTradeStatusEnum.SHIBAI);
-//            paymentTrade.setType(PaymentTradeTypeEnum.TUIKUAN);
-//            paymentTrade.setRemark(paymentBean.getRemark() + PaymentTradeStatusEnum.SHIBAI.getRemark());
-//        }
-//        paymentTradeService.save(paymentTrade);
-        /*// 交易后添加操作记录
-        userService.saveUserOperation(UserOperationEnum.PAYMENT, paymentTrade.getRemark()
-                + PaymentTradeTypeEnum.get(paymentTrade.getType()).getRemark() + "("
-                + PaymentTradeStatusEnum.get(paymentTrade.getStatus()).getRemark() + ")");*/
-    }
-
 }
